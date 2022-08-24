@@ -1,0 +1,12 @@
+with table1 as (
+	select enrolled_id, count(*) as total_cnt from enrolleds_detail 
+	group by enrolled_id 
+), table2 as (
+	select enrolled_id, count(*) as done_cnt from enrolleds_detail
+	where done = 1
+	group by enrolled_id 
+) 
+
+select a.enrolled_id, b.done_cnt, a.total_cnt, 
+       round((b.done_cnt/a.total_cnt),2) as ratio from table1 a
+inner join table2 b on a.enrolled_id = b.enrolled_id
